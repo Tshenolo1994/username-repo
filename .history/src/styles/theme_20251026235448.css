@@ -1,0 +1,48 @@
+:root {
+    /* dark mode is default */
+    --bg: #0f0f10;
+    --bg-elev: #1a1a1b;
+    --text: #f4f4f5;
+    --muted: #a1a1aa;
+    --border: #27272a;
+    --link: #7c3aed;
+  }
+  
+  /* optional light theme (we'll toggle later) */
+  [data-theme="light"] {
+    --bg: #f9fafb;
+    --bg-elev: #ffffff;
+    --text: #18181b;
+    --muted: #52525b;
+    --border: #e4e4e7;
+    --link: #2563eb;
+  }
+  
+  /* global body defaults */
+  html, body, #app {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  /* smooth typography */
+  h1, h2, h3 {
+    line-height: 1.2;
+    margin: 0;
+  }
+  p {
+    margin: 0.25rem 0 0;
+  }
+  
+
+  .card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  
