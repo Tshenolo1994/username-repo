@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onMounted, computed, watch } from "vue"
-import { useRoute, useRouter } from "vue-router"
-import { useRepoStore } from "@/stores/useRepoStore"   
-import Pagination from "@/components/Pagination.vue"
-import { Star } from "lucide-vue-next"
+import { onMounted, computed, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useRepoStore } from "@/stores/useRepoStore";
+import Pagination from "@/components/Pagination.vue";
+import { Star } from "lucide-vue-next";
+
 const route = useRoute();
 const router = useRouter();
 const store = useRepoStore();
@@ -28,18 +29,19 @@ watch(
 );
 
 const repos = computed(() => store.repos);
+
+/** avoid TS2367 in template by using booleans */
+const isLoading = computed(() => store.repoStatus === "loading");
+const isError = computed(() => store.repoStatus === "error");
+const isSuccess = computed(() => store.repoStatus === "success");
 </script>
 
 <template>
   <div class="repo-view">
     <h1 class="title">Repositories of {{ username }}</h1>
 
-    <div v-if="store.repoStatus === 'loading'" class="status">
-      Loading repositories…
-    </div>
-    <div v-else-if="store.repoStatus === 'error'" class="status error">
-      {{ store.repoError }}
-    </div>
+    <div v-if="isLoading" class="status">Loading repositories…</div>
+    <div v-else-if="isError" class="status error">{{ store.repoError }}</div>
     <div v-else-if="!repos.length" class="status">No repositories found.</div>
 
     <div class="repo-grid" v-else>
@@ -71,11 +73,11 @@ const repos = computed(() => store.repos);
     </div>
 
     <Pagination
-      v-if="store.repoStatus === 'success'"
+      v-if="isSuccess"
       :page="store.page"
       :hasNext="store.hasNext"
       :hasPrev="store.hasPrev"
-      :loading="store.repoStatus === 'loading'"
+      :loading="isLoading"
       @next="store.nextPage(username)"
       @prev="store.prevPage(username)"
     />
@@ -90,7 +92,6 @@ const repos = computed(() => store.repos);
   color: #f5c518;
   font-size: 1rem;
 }
-
 @media (min-width: 768px) {
   .star-count {
     gap: 0.5rem;
